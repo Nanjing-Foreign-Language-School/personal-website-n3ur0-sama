@@ -13,13 +13,18 @@ document.getElementById('sayHiBtn').addEventListener('click', function() {
   }, 1600);
 });
 
-// Timeline: animation and transition logic
+// Timeline: correct animation and transition logic
 function showTimelineOnScroll() {
   const timelineSection = document.getElementById('timeline');
   const container = document.querySelector('.container.main-section');
-  // Use window.scrollY and section offset to determine when to show timeline
-  const trigger = container.offsetTop + container.offsetHeight * 0.6;
-  if (window.scrollY + window.innerHeight >= trigger) {
+  const trigger = container.offsetTop + container.offsetHeight * 0.9; // More conservative trigger
+
+  // Only activate timeline when the top of timeline section is actually visible in viewport
+  const timelineTop = timelineSection.getBoundingClientRect().top;
+  const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+  if (timelineTop < viewportHeight - 100) {
+    // Timeline in view, activate transition
     timelineSection.classList.add('visible');
     document.body.classList.add('timeline-active');
     // Animate timeline items
